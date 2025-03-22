@@ -1,0 +1,65 @@
+<div class="container d-flex justify-content-between w-100 my-4 pt-5 title">
+  <h4 class="text-white">
+    <i class="text-primary fa-fire-flame-curved fa-solid"></i> Series
+  </h4>
+</div>
+<!--  app  -->
+<div class="genre-container container">
+  <span class="genre">Action</span>
+  <span class="genre">Adventure</span>
+  <span class="genre">Comedy</span>
+  <span class="genre">Drama</span>
+  <span class="genre">Fantasy</span>
+  <span class="genre">Gourmet</span>
+  <span class="genre">Horror</span>
+  <span class="genre">Mystery</span>
+  <span class="genre">Romance</span>
+  <span class="genre">Sci-Fi</span>
+  <span class="genre">Slice of Life</span>
+  <span class="genre">Shoujo</span>
+  <span class="genre">Supernatural</span>
+  <span class="genre">Suspense</span>
+  <span class="genre">Josei</span>
+  <span class="genre">Magic</span>
+  <span class="genre">Time Travel</span>
+  <span class="genre">Historical</span>
+</div>
+
+<div class="manhwa-container container min-vh-100 mb-5">
+  <div *ngFor="let manhwa of manhwas" class="manhwa-card">
+    <img [src]="manhwa.cover" alt="Manhwa Cover" class="cover-image" />
+    <div class="details">
+      <span class="tag">Manhwa</span>
+      <h2>{{ manhwa.title }}</h2>
+      <p class="genre">{{ manhwa.genre }}</p>
+      <ul class="chapters">
+        <li *ngFor="let chapter of manhwa.chapters">
+          Ch {{ chapter.number }}
+          <span *ngIf="chapter.status" class="new">{{ chapter.status }}</span>
+          <br />
+          <span class="date">{{ chapter.date }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div
+  class="w-100-text-center lst-control-btn my-5 d-flex justify-content-center"
+>
+  <a  class="d-none"
+    ><img
+      src="https://api.iconify.design/mdi:arrow-left.svg?color=white"
+      alt="New Posts"
+  /></a>
+  <a routerLink="/"
+    ><img
+      class="mx-3"
+      src="https://api.iconify.design/iconamoon:home-fill.svg?color=white"
+      alt="Home"
+  /></a>
+  <a 
+    ><img
+      src="https://api.iconify.design/mdi:arrow-right.svg?color=white"
+      alt="Older Posts"
+  /></a>
+</div>

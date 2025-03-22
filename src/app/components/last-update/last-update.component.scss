@@ -1,0 +1,52 @@
+$title-color: white;
+$bg-color: #000;
+$card-hover: rgba(255, 255, 255, 0.1);
+
+.title {
+  h4 {
+    color: $title-color;
+  }
+}
+
+.card {
+  background-color: $bg-color;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+    background-color: $card-hover;
+  }
+
+  .card-body {
+    background-color: $bg-color;
+    border: none;
+  }
+
+  img {
+    border-radius: 10px;
+  }
+}
+$bg-color: #000;
+$text-color: white;
+$card-bg: #1a1a1a;
+$shadow-color: rgba(0, 0, 0, 0.3);
+
+.container {
+  .card {
+    background: $card-bg;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-img-top {
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      background: transparent;
+    }
+  }
+}

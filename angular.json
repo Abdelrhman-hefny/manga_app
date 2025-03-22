@@ -20,19 +20,16 @@
             "outputPath": "dist/manga_app",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
+              "node_modules/@splidejs/splide/dist/css/splide.min.css",
+              "node_modules/font-awesome/css/font-awesome.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": ["node_modules/@splidejs/splide/dist/js/splide.min.js"],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -84,23 +81,21 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "inlineStyleLanguage": "css",
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["node_modules/mdb-ui-kit/js/mdb.min.js"]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "ba31ef25-a690-4f18-8a05-718d7b9ad064"
   }
 }
