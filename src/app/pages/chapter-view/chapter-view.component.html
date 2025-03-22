@@ -1,124 +1,282 @@
-<div class="d-flex justify-content-center align-items-center w-100 mx-auto p-4 p-vw-4">
-    <h1>
-      <span class="d-flex flex-wrap justify-content-center align-items-center gap-1-5 gap-vw-1-5">
-        <span>
-          <a [routerLink]="['/series', manga.seriesUid]" class="opacity-100 hover-opacity-50 transition-all">
-            {{ manga.title }}
-          </a>
-          - Chapter {{ chapter.number }}
-        </span>
-      </span>
-    </h1>
-  </div>
-  
+<!-- Chapter Controls Header -->
+<header
+  id="chapter_controls_header"
+  class="fixed-bottom border-top w-100 start-0 z-50 bg-header border-light border-opacity-5 transition-all"
+  [ngClass]="{ 'header-hidden': !isHeaderVisible }"
+>
   <div class="container mx-auto p-4 p-vw-4">
-    <!-- Zoom Controls -->
-    <div class="d-flex justify-content-center align-items-center gap-4 mb-4">
-      <label for="zoom-slider" class="text-white">Zoom:</label>
-      <input id="zoom-slider" type="range" min="1" max="5" step="0.1" [(ngModel)]="zoomLevel" (ngModelChange)="setZoomLevel($event)" class="w-48">
-    </div>
-  
-    <div id="pages_panel" class="row gap-4 gap-vw-4 position-relative">
-      <div id="pages" class="row w-100 mx-auto rounded overflow-hidden mx-vw-4 cursor-custom" (click)="scrollToDown()">
-        <img *ngFor="let image of chapter.images"
-             #mangaImage
-             [attr.data-src]="image.src"
-             [attr.uid]="image.uid"
-             [attr.count]="image.count"
-             class="lazy w-100 myImage"
-             alt="Loading Page..."
-             loading="lazy">
-      </div>
-    </div>
-  
-    <!-- Next Chapter -->
-    <div class="d-flex flex-column justify-content-center align-items-center gap-4 mt-4 mb-4 w-100 mx-auto">
-      <div class="fs-4 font-medium">Next Chapter</div>
-      <a class="d-flex align-items-center justify-content-between gap-4 gap-vw-4 bg-light bg-opacity-10 rounded-3 p-2 p-vw-2 transition-all hover-bg-light-20"
-         [routerLink]="['/chapter', manga.seriesUid, nextChapter.chapterUid]">
-        <div class="d-flex align-items-center gap-4 gap-vw-4">
-          <div class="border border-light border-opacity-10 bg-light bg-opacity-10 overflow-hidden rounded-2">
-            <div class="w-28 bg-light bg-opacity-10 bg-cover bg-center rounded-2 aspect-2-1-5"
-                 [style.backgroundImage]="'url(' + nextChapter.thumbnail + ')'"></div>
-          </div>
-          <div class="h-auto">
-            <span class="d-flex gap-1 justify-content-start align-items-center overflow-hidden">
-              <span class="text-sm text-truncate">Chapter {{ nextChapter.number }}</span>
-            </span>
-            <div class="d-flex flex-column align-items-start gap-1-5">
-              <div class="text-xs text-white-50"> {{ nextChapter.timestamp }}</div>
-            </div>
-          </div>
+    <div class="d-flex justify-content-center align-items-center gap-4">
+      <!-- Chapters Button -->
+      <button
+        id="chapters_show"
+        class="d-flex justify-content-center align-items-center h-11 gap-3 bg-light bg-opacity-10 hover-bg-light-20 transition-all cursor-pointer rounded-pill px-4 px-vw-4 w-100 w-sm-auto"
+        (click)="toggleChaptersModal()"
+      >
+        <img
+          class="w-6"
+          src="https://api.iconify.design/ph:squares-four-fill.svg?color=white"
+        />
+        <div class="font-medium">Chapters</div>
+      </button>
+
+      <!-- Zoom Controls (Hidden on Mobile) -->
+      <div
+        class="d-none d-sm-flex justify-content-center align-items-center h-11 gap-3 bg-light bg-opacity-10 rounded-pill overflow-hidden transition-all"
+      >
+        <div
+          class="d-flex justify-content-center align-items-center h-11 aspect-square cursor-pointer hover-bg-light-20"
+          (click)="zoomOut()"
+        >
+          <span class="fs-5">-</span>
         </div>
+        <div class="w-10 text-center" id="zoom-value">
+          {{ zoomLevel * 10 }}%
+        </div>
+        <div
+          class="d-flex justify-content-center align-items-center h-11 aspect-square cursor-pointer hover-bg-light-20"
+          (click)="zoomIn()"
+        >
+          <span class="fs-5">+</span>
+        </div>
+      </div>
+
+      <!-- Next Chapter Button -->
+      <a
+        [routerLink]="['/chapter', manga.seriesUid, nextChapter.chapterUid]"
+        class="d-flex justify-content-center align-items-center h-11 gap-3 bg-light bg-opacity-10 hover-bg-light-20 transition-all cursor-pointer rounded-pill w-50 w-sm-100 max-w-10rem"
+      >
+        <img
+          class="w-6"
+          src="https://api.iconify.design/mdi:arrow-right.svg?color=white"
+        />
       </a>
     </div>
-  
-    <!-- Options Button -->
-    <div class="d-none d-sm-block position-sticky bg-primary opacity-80 bottom-4 end-0 z-10 mx-auto rounded-pill overflow-hidden cursor-pointer transition-all hover-opacity-100 mb-3">
-      <div class="w-100 h-100 rounded-pill border border-light border-opacity-10 px-4 d-flex justify-content-center align-items-center">
-        <div>Options</div>
-      </div>
+  </div>
+     
+</header>
+
+
+<!-- Chapters Modal -->
+<div
+  *ngIf="isChaptersModalVisible"
+  class="fixed inset-0 bg-black bg-opacity-50 z-50 d-flex justify-content-center align-items-center"
+  (click)="closeChaptersModal()"
+>
+  <div
+    class="bg-dark rounded-3 p-4 w-75 max-w-960px overflow-auto"
+    (click)="$event.stopPropagation()"
+    style="max-height: 80vh"
+  >
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="text-white mb-0">Chapters</h3>
+      <button
+        class="btn btn-close btn-close-white"
+        (click)="closeChaptersModal()"
+      ></button>
     </div>
-  
-    <!-- Share, Report, and Social Sections -->
-    <div class="row row-cols-md-2 gap-4 gap-2">
-      <!-- Share Section -->
-      <div class="d-none d-sm-flex justify-content-between bg-gradient-light col-12 p-4 rounded-3 overflow-hidden z-1 w-100">
-        <div class="d-flex gap-4 justify-content-center align-items-center">
-          <div class="h-100 w-1 rounded bg-light bg-opacity-20"></div>
-          <div class="">
-            <div class="font-medium text-truncate">Share Magus Manga</div>
-            <div class="text-sm text-truncate">to your friends</div>
+    <div class="row row-cols-1 row-cols-sm-3 gap-4">
+      <div *ngFor="let chapter of chapters" class="col">
+        <a
+          [routerLink]="['/chapter', manga.seriesUid, chapter.chapterUid]"
+          class="d-flex flex-column align-items-center gap-2 text-decoration-none"
+        >
+          <div class="w-100 bg-light bg-opacity-10 rounded-2 overflow-hidden">
+            <div
+              class="w-100 bg-cover bg-center aspect-2-1-5"
+              [style.backgroundImage]="'url(' + chapter.thumbnail + ')'"
+            ></div>
           </div>
-        </div>
-        <div class="sharethis-inline-share-buttons st-left st-has-labels st-inline-share-buttons st-animated" id="st-1">
-          <div class="st-btn st-first st-last st-remove-label" data-network="sharethis">
-            <img alt="sharethis sharing button" src="https://platform-cdn.sharethis.com/img/sharethis.svg">
-            <span class="st-label">Share</span>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Report Section -->
-      <div class="d-flex justify-content-between gap-4 bg-light bg-opacity-10 p-4 rounded-3 w-100">
-        <div class="d-flex gap-4 justify-content-center align-items-center">
-          <div class="w-auto h-100">
-            <div class="h-100 w-1 rounded bg-light bg-opacity-20"></div>
-          </div>
-          <div class="">
-            <div class="font-medium text-truncate">Facing an Issue?</div>
-            <div class="text-sm text-truncate">Let us know, and we'll help ASAP</div>
-          </div>
-        </div>
-        <button class="h-10 gap-2 px-4 bg-danger hover-bg-danger-dark hover-opacity-80 d-flex justify-content-center align-items-center rounded-pill transition-all">
-          <div class="w-6">
-            <img class="w-6" src="https://api.iconify.design/material-symbols:report.svg?color=white">
-          </div>
-          <div class="font-medium">Report</div>
-        </button>
-      </div>
-  
-      <!-- Social Section -->
-      <div class="d-flex justify-content-between gap-4 bg-light bg-opacity-10 p-4 rounded-3 w-100">
-        <div class="d-flex gap-4 justify-content-center align-items-center">
-          <div class="h-100 w-1 rounded bg-light bg-opacity-20"></div>
-          <div class="">
-            <div class="font-medium text-truncate">Join Our Socials</div>
-            <div class="text-sm text-truncate">to explore more</div>
-          </div>
-        </div>
-        <a href="https://discord.gg/gnHkqYew8P" target="_blank" class="h-10 gap-2 px-4 bg-discord d-flex justify-content-center align-items-center rounded-pill transition-all">
-          <div class="w-6">
-            <img src="https://api.iconify.design/cbi:discord.svg?color=%23ffffff" class="w-6" alt="discord">
-          </div>
-          <div class="font-medium">Discord</div>
+          <div class="text-white text-sm">Chapter {{ chapter.number }}</div>
         </a>
       </div>
     </div>
-  
+  </div>
+</div>
 
-  
-  <!-- ShareThis Script -->
-  <ng-container *ngIf="isBrowser">
-    <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=65dc466cf44fb1001a4c6a85&product=inline-share-buttons&source=platform" async="async"></script>
-  </ng-container>
+<!-- Main Content -->
+<div
+  class="d-flex justify-content-center align-items-center w-100 mx-auto p-4 p-vw-4"
+>
+  <h1>
+    <span
+      class="d-flex flex-wrap justify-content-center align-items-center gap-1-5 gap-vw-1-5"
+    >
+      <span>
+        <a
+          [routerLink]="['/series', manga.seriesUid]"
+          class="opacity-100 hover-opacity-50 transition-all"
+        >
+          {{ manga.title }}
+        </a>
+        - Chapter {{ chapter.number }}
+      </span>
+    </span>
+  </h1>
+</div>
+
+<div class="container mx-auto p-4 p-vw-4">
+  <div id="pages_panel" class="row gap-4 gap-vw-4 position-relative">
+    <div
+      id="pages"
+      class="row w-100 mx-auto rounded overflow-hidden mx-vw-4 cursor-custom"
+      (click)="scrollToDown()"
+    >
+      <img
+        *ngFor="let image of chapter.images"
+        #mangaImage
+        [attr.data-src]="image.src"
+        [attr.uid]="image.uid"
+        [attr.count]="image.count"
+        class="lazy w-100 myImage"
+        alt="Loading Page..."
+        loading="lazy"
+      />
+    </div>
+  </div>
+
+  <!-- Next Chapter -->
+  <div
+    class="d-flex flex-column justify-content-center align-items-center gap-4 mt-4 mb-4 w-100 mx-auto"
+  >
+    <div class="fs-4 font-medium">Next Chapter</div>
+    <a
+      class="d-flex align-items-center justify-content-between gap-4 gap-vw-4 bg-light bg-opacity-10 rounded-3 p-2 p-vw-2 transition-all hover-bg-light-20"
+      [routerLink]="['/chapter', manga.seriesUid, nextChapter.chapterUid]"
+    >
+      <div class="d-flex align-items-center gap-4 gap-vw-4">
+        <div
+          class="border border-light border-opacity-10 bg-light bg-opacity-10 overflow-hidden rounded-2"
+        >
+          <div
+            class="w-28 bg-light bg-opacity-10 bg-cover bg-center rounded-2 aspect-2-1-5"
+            [style.backgroundImage]="'url(' + nextChapter.thumbnail + ')'"
+          ></div>
+        </div>
+        <div class="h-auto">
+          <span
+            class="d-flex gap-1 justify-content-start align-items-center overflow-hidden"
+          >
+            <span class="text-sm text-truncate"
+              >Chapter {{ nextChapter.number }}</span
+            >
+          </span>
+          <div class="d-flex flex-column align-items-start gap-1-5">
+            <div class="text-xs text-white-50">{{ nextChapter.timestamp }}</div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Options Button -->
+  <div
+    class="d-none d-sm-block position-sticky bg-primary opacity-80 bottom-4 end-0 z-10 mx-auto rounded-pill overflow-hidden cursor-pointer transition-all hover-opacity-100"
+  >
+    <div
+      class="w-100 h-100 rounded-pill border border-light border-opacity-10 px-4 d-flex justify-content-center align-items-center"
+    >
+      <div>Options</div>
+    </div>
+  </div>
+
+  <!-- Share, Report, and Social Sections -->
+  <div class="row row-cols-md-2 gap-4 gap-2">
+    <!-- Share Section -->
+    <div
+      class="d-none d-sm-flex justify-content-between bg-gradient-light col-12 p-4 rounded-3 overflow-hidden z-1"
+    >
+      <div class="d-flex gap-4 justify-content-center align-items-center">
+        <div class="h-100 w-1 rounded bg-light bg-opacity-20"></div>
+        <div class="">
+          <div class="font-medium text-truncate">Share Magus Manga</div>
+          <div class="text-sm text-truncate">to your friends</div>
+        </div>
+      </div>
+      <div
+        class="sharethis-inline-share-buttons st-left st-has-labels st-inline-share-buttons st-animated"
+        id="st-1"
+      >
+        <div
+          class="st-btn st-first st-last st-remove-label"
+          data-network="sharethis"
+        >
+          <img
+            alt="sharethis sharing button"
+            src="https://platform-cdn.sharethis.com/img/sharethis.svg"
+          />
+          <span class="st-label">Share</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Report Section -->
+    <div
+      class="d-flex justify-content-between gap-4 bg-light bg-opacity-10 p-4 rounded-3"
+    >
+      <div class="d-flex gap-4 justify-content-center align-items-center">
+        <div class="w-auto h-100">
+          <div class="h-100 w-1 rounded bg-light bg-opacity-20"></div>
+        </div>
+        <div class="">
+          <div class="font-medium text-truncate">Facing an Issue?</div>
+          <div class="text-sm text-truncate">
+            Let us know, and we'll help ASAP
+          </div>
+        </div>
+      </div>
+      <button
+        class="h-10 gap-2 px-4 bg-danger hover-bg-danger-dark hover-opacity-80 d-flex justify-content-center align-items-center rounded-pill transition-all"
+      >
+        <div class="w-6">
+          <img
+            class="w-6"
+            src="https://api.iconify.design/material-symbols:report.svg?color=white"
+          />
+        </div>
+        <div class="font-medium">Report</div>
+      </button>
+    </div>
+ 
+    <!-- Social Section -->
+    <div
+      class="d-flex justify-content-between gap-4 bg-light bg-opacity-10 p-4 rounded-3"
+    >
+      <div class="d-flex gap-4 justify-content-center align-items-center">
+        <div class="h-100 w-1 rounded bg-light bg-opacity-20"></div>
+        <div class="">
+          <div class="font-medium text-truncate">Join Our Socials</div>
+          <div class="text-sm text-truncate">to explore more</div>
+        </div>
+      </div>
+      <a
+        href="https://discord.gg/gnHkqYew8P"
+        target="_blank"
+        class="h-10 gap-2 px-4 bg-discord d-flex justify-content-center align-items-center rounded-pill transition-all"
+      >
+        <div class="w-6">
+          <img
+            src="https://api.iconify.design/cbi:discord.svg?color=%23ffffff"
+            class="w-6"
+            alt="discord"
+          />
+        </div>
+        <div class="font-medium">Discord</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Disqus Comments -->
+  <div class="row w-100-plus-8vw mx-vw-4 bg-light bg-opacity-10 rounded-2">
+    <div id="disqus_thread" class="w-100 p-4 p-vw-4"></div>
+  </div>
+</div>
+
+<!-- ShareThis Script -->
+<ng-container *ngIf="isBrowser">
+  <script
+    type="text/javascript"
+    src="https://platform-api.sharethis.com/js/sharethis.js#property=65dc466cf44fb1001a4c6a85&product=inline-share-buttons&source=platform"
+    async="async"
+  ></script>
+</ng-container>
+<!-- Scroll to Top Button -->

@@ -1,6 +1,17 @@
 <app-nav-bar></app-nav-bar>
-<!-- <app-slider></app-slider>
-<app-home></app-home>
-<app-last-update></app-last-update> -->
 <router-outlet></router-outlet>
 <app-footer></app-footer>
+
+<!-- Scroll to Top Button -->
+<div class="position-fixed position-fixed-btn bottom-4 end-0 z-50 mx-4 mx-vw-4">
+  <button 
+    class="scroll-to-top-btn bg-light bg-opacity-10 rounded-circle d-flex justify-content-center align-items-center transition-all hover-bg-light-20"
+    (click)="scrollToTop()"
+  >
+    <img
+      class="w-5 h-5"
+      src="https://api.iconify.design/mdi:arrow-up.svg?color=white"
+      alt="Scroll to Top"
+    />
+  </button>
+</div>

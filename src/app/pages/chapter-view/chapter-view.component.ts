@@ -1,6 +1,17 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChildren, QueryList, Inject, PLATFORM_ID } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ElementRef,
+  ViewChildren,
+  QueryList,
+  Inject,
+  PLATFORM_ID,
+  ChangeDetectorRef,
+  HostListener,
+} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common'; // Import CommonModule
 import { FormsModule } from '@angular/forms';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -10,11 +21,12 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrls: ['./chapter-view.component.scss'],
   standalone: true,
   imports: [
+    CommonModule, // Add CommonModule to imports
     NgFor,
     NgIf,
     RouterLink,
-    FormsModule
-  ]
+    FormsModule,
+  ],
 })
 export class ChapterViewComponent implements OnInit, AfterViewInit {
   mangaId: string | null = null;
@@ -22,7 +34,7 @@ export class ChapterViewComponent implements OnInit, AfterViewInit {
 
   manga = {
     title: 'Hold Her Tighter So She Wouldn’t Run Away',
-    seriesUid: '63089f46876'
+    seriesUid: '63089f46876',
   };
 
   chapter = {
@@ -43,25 +55,66 @@ export class ChapterViewComponent implements OnInit, AfterViewInit {
       { src: '/assets/ch9/12.jpg', uid: 'Xy7JkPzNqLd', count: 11 },
       { src: '/assets/ch9/13.jpg', uid: 'M4RtQGpH0Vx', count: 12 },
       { src: '/assets/ch9/14.jpg', uid: 'ZaW5FbYXK8J', count: 13 },
-      { src: '/assets/ch9/15.jpg', uid: 'Ny6TpRvLJ3C', count: 14 }
-    ]
+      { src: '/assets/ch9/15.jpg', uid: 'Ny6TpRvLJ3C', count: 14 },
+    ],
   };
 
   nextChapter = {
     number: '02',
     chapterUid: '6308b590e5b',
     thumbnail: 'https://wsrv.nl/?url=cdn.meowing.org/uploads/jUBQtuVcnT4&w=150',
-    timestamp: '4 days ago'
+    timestamp: '4 days ago',
   };
 
-  zoomLevel: number = 3;
-  isBrowser: boolean;
+  chapters = [
+    {
+      number: '01',
+      chapterUid: '6308a9092bd',
+      thumbnail:
+        'https://wsrv.nl/?url=cdn.meowing.org/uploads/jUBQtuVcnT4&w=150',
+    },
+    {
+      number: '02',
+      chapterUid: '6308b590e5b',
+      thumbnail:
+        'https://wsrv.nl/?url=cdn.meowing.org/uploads/jUBQtuVcnT4&w=150',
+    },
+    {
+      number: '03',
+      chapterUid: '6308c1234ab',
+      thumbnail:
+        'https://wsrv.nl/?url=cdn.meowing.org/uploads/jUBQtuVcnT4&w=150',
+    },
+    {
+      number: '04',
+      chapterUid: '6308d5678ef',
+      thumbnail:
+        'https://wsrv.nl/?url=cdn.meowing.org/uploads/jUBQtuVcnT4&w=150',
+    },
+    {
+      number: '05',
+      chapterUid: '6308e9012cd',
+      thumbnail:
+        'https://wsrv.nl/?url=cdn.meowing.org/uploads/jUBQtuVcnT4&w=150',
+    },
+  ];
 
-  @ViewChildren('mangaImage') mangaImages!: QueryList<ElementRef<HTMLImageElement>>;
+  zoomLevel: number = 3;
+  zoomMin: number = 1;
+  zoomMax: number = 10;
+  isBrowser: boolean;
+  private lastScrollTop: number = 0;
+  isHeaderVisible: boolean = true;
+  isChaptersModalVisible: boolean = false;
+
+  @ViewChildren('mangaImage') mangaImages!: QueryList<
+    ElementRef<HTMLImageElement>
+  >;
 
   constructor(
     private route: ActivatedRoute,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private cdr: ChangeDetectorRef
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -69,8 +122,11 @@ export class ChapterViewComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.mangaId = this.route.snapshot.paramMap.get('mangaId');
     this.chapterId = this.route.snapshot.paramMap.get('chapterId');
-    this.setZoomLevel(this.zoomLevel);
     if (this.isBrowser) {
+      const storedZoom = localStorage.getItem('zoom-0.2');
+      this.zoomLevel = storedZoom ? parseInt(storedZoom, 10) : 3;
+      console.log('Initial zoom level:', this.zoomLevel);
+      this.setZoomLevel(this.zoomLevel);
       this.loadDisqus();
     }
   }
@@ -78,7 +134,7 @@ export class ChapterViewComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     if (this.isBrowser) {
       const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const img = entry.target as HTMLImageElement;
             this.loadImage(img);
@@ -87,10 +143,44 @@ export class ChapterViewComponent implements OnInit, AfterViewInit {
         });
       });
 
-      this.mangaImages.forEach(img => {
+      this.mangaImages.forEach((img) => {
         observer.observe(img.nativeElement);
       });
     }
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event) {
+    if (!this.isBrowser) return;
+
+    const currentScrollTop =
+      window.scrollY || document.documentElement.scrollTop;
+
+    if (currentScrollTop <= 0) {
+      this.isHeaderVisible = true;
+      this.cdr.detectChanges();
+      return;
+    }
+
+    if (currentScrollTop > this.lastScrollTop) {
+      this.isHeaderVisible = false;
+    } else {
+      this.isHeaderVisible = true;
+    }
+
+    this.lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
+    this.cdr.detectChanges();
+  }
+
+  toggleChaptersModal() {
+    this.isChaptersModalVisible = !this.isChaptersModalVisible;
+    console.log('Modal visibility:', this.isChaptersModalVisible);
+    this.cdr.detectChanges();
+  }
+
+  closeChaptersModal() {
+    this.isChaptersModalVisible = false;
+    this.cdr.detectChanges();
   }
 
   loadImage(img: HTMLImageElement) {
@@ -128,7 +218,12 @@ export class ChapterViewComponent implements OnInit, AfterViewInit {
         const currentTime = Date.now();
         const timeElapsed = currentTime - startTime;
         if (timeElapsed < duration) {
-          const nextY = easeInOutQuad(timeElapsed, currentY, destinationY - currentY, duration);
+          const nextY = easeInOutQuad(
+            timeElapsed,
+            currentY,
+            destinationY - currentY,
+            duration
+          );
           window.scrollTo(0, nextY);
           requestAnimationFrame(scroll);
         } else {
@@ -143,15 +238,32 @@ export class ChapterViewComponent implements OnInit, AfterViewInit {
   setZoomLevel(level: number) {
     this.zoomLevel = level;
     if (this.isBrowser) {
-      document.body.style.setProperty('--width', `${this.zoomLevel * 10}px`);
+      const widthValue = `${this.zoomLevel * 10}%`;
+      console.log('Setting --width to:', widthValue);
+      document.body.style.setProperty('--width', widthValue);
       localStorage.setItem('zoom-0.2', this.zoomLevel.toString());
+      this.cdr.detectChanges();
+    }
+  }
+
+  zoomIn() {
+    if (this.zoomLevel < this.zoomMax) {
+      console.log('Zooming in, current level:', this.zoomLevel);
+      this.setZoomLevel(this.zoomLevel + 1);
+    }
+  }
+
+  zoomOut() {
+    if (this.zoomLevel > this.zoomMin) {
+      console.log('Zooming out, current level:', this.zoomLevel);
+      this.setZoomLevel(this.zoomLevel - 1);
     }
   }
 
   loadDisqus() {
     (window as any).disqus_config = () => {
       (window as any).disqus_config.page = {
-        identifier: `/comic/${this.manga.seriesUid}/chapter/${this.chapter.chapterUid}/`
+        identifier: `/comic/${this.manga.seriesUid}/chapter/${this.chapter.chapterUid}/`,
       };
     };
 
