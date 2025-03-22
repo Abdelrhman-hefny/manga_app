@@ -1,0 +1,23 @@
+<div class="sidebar">
+    <h3 class="text-white mb-4">Top Manga List</h3>
+    <div class="text-white mb-2">Number of items: {{ topManga.length }}</div>
+    <ul class="list-unstyled">
+      <li *ngFor="let manga of topManga" class="manga-item">
+        <a [href]="manga.url" class="d-flex align-items-center">
+          <div class="rank me-3">{{ manga.rank }}</div>
+          <img [src]="manga.image" class="thumbnail me-3" [alt]="manga.title">
+          <div class="manga-details">
+            <h4 class="manga-title">{{ manga.title }}</h4>
+            <div class="genres mb-1" *ngIf="manga.genres.length">
+              <a *ngFor="let genre of manga.genres; let last = last" [href]="'/series/?genre=' + genre.toLowerCase()" class="genre-link">
+                {{ genre }}{{ last ? '' : ',' }}
+              </a>
+            </div>
+            <div class="tags">
+              <span *ngFor="let tag of manga.tags" class="badge bg-secondary me-1">{{ tag | titlecase }}</span>
+            </div>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>

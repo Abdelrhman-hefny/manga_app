@@ -1,0 +1,164 @@
+:host {
+  display: block;
+  background: #1a1a1a; // Dark background to match the app theme
+  color: #ffffff;
+  padding-top: 300px;
+}
+
+#pages {
+  .myImage {
+    width: 100%;
+    height: auto;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+  }
+}
+
+.container {
+  max-width: 960px; // Equivalent to Tailwind's max-w-6xl
+  @media (min-width: 1536px) {
+    max-width: 1600px; // Equivalent to Tailwind's 2xl:max-w-[100rem]
+  }
+}
+
+.p-vw-4 {
+  padding: 4vw;
+  @media (min-width: 576px) {
+    padding: 1rem; // Bootstrap's p-4
+  }
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-vw-4 {
+  gap: 4vw;
+  @media (min-width: 576px) {
+    gap: 1rem;
+  }
+}
+
+.gap-1-5 {
+  gap: 0.375rem;
+}
+
+.gap-vw-1-5 {
+  gap: 1.5vw;
+  @media (min-width: 576px) {
+    gap: 0.375rem;
+  }
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.mx-vw-4 {
+  margin-left: -4vw;
+  margin-right: -4vw;
+  @media (min-width: 576px) {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.w-100-plus-8vw {
+  width: calc(100% + 8vw);
+  @media (min-width: 576px) {
+    width: 100%;
+  }
+}
+
+.cursor-custom {
+  cursor: url(https://api.iconify.design/uim:arrow-circle-down.svg?color=red&width=40),
+    pointer;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.text-white-50 {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.bg-opacity-10 {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.bg-opacity-20 {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.bg-gradient-light {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.border-opacity-10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+.hover-opacity-50:hover {
+  opacity: 0.5;
+}
+
+.hover-opacity-100:hover {
+  opacity: 1;
+}
+
+.hover-bg-light-20:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.bg-danger-dark {
+  background-color: #e11d48; // Equivalent to bg-rose-600
+}
+
+.bg-discord {
+  background-color: #5865f2;
+}
+
+.bg-discord:hover {
+  background-color: rgba(88, 101, 242, 0.8);
+}
+
+.h-10 {
+  height: 2.5rem;
+}
+
+.w-6 {
+  width: 1.5rem;
+}
+
+.w-28 {
+  width: 7rem;
+}
+
+.aspect-2-1-5 {
+  aspect-ratio: 2 / 1.5;
+}
+
+.z-1 {
+  z-index: 1;
+}
+
+#st-1 .st-total {
+  color: white !important;
+}
+
+#st-1.st-hidden {
+  opacity: 100 !important;
+}

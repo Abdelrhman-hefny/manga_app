@@ -1,0 +1,106 @@
+<div class="manga-info-container">
+  <div class="row">
+    <!-- Manga Cover -->
+    <div class="col-md-4 col-12">
+      <div class="cover-image">
+        <img
+          [src]="manga.coverImage"
+          class="img-fluid rounded"
+          alt="Manga Cover"
+        />
+      </div>
+    </div>
+
+    <!-- Manga Details -->
+    <div class="col-md-8 col-12">
+      <!-- Title -->
+      <h1 class="manga-title">{{ manga.title }}</h1>
+
+      <!-- Tags -->
+      <div class="tags mb-3">
+        <span class="badge bg-success me-2">{{ manga.status }}</span>
+        <span class="badge bg-danger me-2">
+          <i class="fa fa-flag me-1"></i> {{ manga.type }}
+        </span>
+        <span class="badge bg-secondary me-2">
+          <i class="fa fa-clock-o me-1"></i> {{ manga.lastUpdated }}
+        </span>
+        <span
+          class="badge bg-secondary me-2"
+          *ngFor="let genre of manga.genres"
+        >
+          <i class="fa fa-tag me-1" *ngIf="genre === 'Drama'"></i> {{ genre }}
+        </span>
+        <i class="fa fa-crown text-warning"></i>
+      </div>
+
+      <!-- Synopsis -->
+      <div class="synopsis mb-3">
+        <p>{{ manga.description }}</p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons mb-3">
+        <a [href]="manga.firstChapterUrl" class="btn btn-light me-2">
+          <i class="fa fa-play me-2"></i> Start Reading
+        </a>
+        <a [href]="manga.latestChapterUrl" class="btn btn-outline-light me-2">
+          <i class="fa fa-play me-2"></i> New Chapter
+        </a>
+        <button
+          class="btn"
+          [ngClass]="isInLibrary ? 'btn-danger' : 'btn-outline-light'"
+          (click)="toggleLibrary()"
+        >
+          <i
+            class="fa"
+            [ngClass]="isInLibrary ? 'fa-times' : 'fa-bookmark'"
+          ></i>
+          {{ isInLibrary ? "Remove from Library" : "Add to Library" }}
+        </button>
+      </div>
+
+      <!-- Social and Report Section -->
+      <div class="social-report">
+        <div class="share-section d-flex align-items-center mb-3">
+          <div class="vertical-line me-3"></div>
+          <p class="text-white mb-0">
+            Share Magus Manga Friends <i class="fa fa-share-alt ms-2"></i>
+          </p>
+        </div>
+        <div
+          class="report-section d-flex justify-content-between align-items-center mb-3"
+        >
+          <div class="d-flex align-items-center">
+            <div class="vertical-line me-3"></div>
+            <div>
+              <div class="font-medium">Facing an Issue?</div>
+              <div class="text-sm text-muted">
+                Let us know, and we’ll help ASAP!
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-danger">REPORT</button>
+        </div>
+        <div
+          class="social-section d-flex justify-content-between align-items-center"
+        >
+          <div class="d-flex align-items-center">
+            <div class="vertical-line me-3"></div>
+            <div>
+              <div class="font-medium">Join Our Socials</div>
+              <div class="text-sm text-muted">to explore more</div>
+            </div>
+          </div>
+          <a
+            href="https://discord.gg/gnHkqYew8P"
+            target="_blank"
+            class="btn btn-primary"
+          >
+            <i class="fa fa-discord"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

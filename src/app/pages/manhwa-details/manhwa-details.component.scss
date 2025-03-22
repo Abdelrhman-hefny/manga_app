@@ -1,0 +1,121 @@
+.manga-info-container {
+  background: #3a2e3f;
+  border-radius: 10px;
+  padding: 20px;
+
+  .cover-image {
+    img {
+      width: 100%;
+      max-width: 200px;
+      margin: 0 auto;
+      display: block;
+    }
+  }
+
+  .manga-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 1.2;
+    margin-bottom: 15px;
+
+    @media (max-width: 576px) {
+      font-size: 1.5rem;
+      line-height: 1.3;
+    }
+  }
+
+  .tags {
+    .badge {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      border-radius: 15px;
+      transition: background 0.3s ease;
+
+      &:hover {
+        filter: brightness(1.2);
+      }
+    }
+
+    .bg-success {
+      background: #28a745 !important;
+    }
+
+    .bg-danger {
+      background: #ff5a5f !important;
+    }
+
+    .bg-secondary {
+      background: #6c757d !important;
+    }
+  }
+
+  .synopsis {
+    background: #ffffff1a;
+    padding: 15px;
+    border-radius: 10px;
+    color: #d3d3d3;
+    white-space: pre-wrap;
+    font-size: 1rem;
+  }
+
+  .action-buttons {
+    .btn {
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+
+      &.btn-light {
+        background: #ffffff;
+        color: #000;
+      }
+
+      &.btn-outline-light {
+        border: 1px solid #ffffff;
+        color: #ffffff;
+      }
+
+      &.btn-danger {
+        background: #ff5a5f;
+        border: none;
+        color: #ffffff;
+      }
+
+      &:hover {
+        filter: brightness(1.2);
+      }
+    }
+  }
+
+  .social-report {
+    .btn {
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+
+      &.btn-danger {
+        background: #ff5a5f;
+      }
+
+      &.btn-primary {
+        background: #5865f2;
+      }
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+  }
+}
+
+////////////
+/// /
+/// ///
+/// /
+/// /
+///////////
+/// /
+/// /
+/// ///////////////
+///

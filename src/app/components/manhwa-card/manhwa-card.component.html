@@ -1,7 +1,11 @@
 <div class="container">
-  <div class="row g-3"> <!-- استخدم `row` مع `g-3` لإضافة مسافات بين العناصر -->
-    <div *ngFor="let manhwa of manhwas" class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="manhwa-card">
+  <div class="row g-3">
+    <!-- استخدم `row` مع `g-3` لإضافة مسافات بين العناصر -->
+    <div
+      *ngFor="let manhwa of manhwas"
+      class="col-lg-3 col-md-4 col-sm-6 col-12"
+    >
+      <div class="manhwa-card" routerLink="/manga-detailes" > 
         <img [src]="manhwa.cover" alt="Manhwa Cover" class="cover-image" />
         <div class="details">
           <span class="tag">Manhwa</span>
@@ -10,7 +14,9 @@
           <ul class="chapters">
             <li *ngFor="let chapter of manhwa.chapters">
               Ch {{ chapter.number }}
-              <span *ngIf="chapter.status" class="new">{{ chapter.status }}</span>
+              <span *ngIf="chapter.status" class="new">{{
+                chapter.status
+              }}</span>
               <br />
               <span class="date">{{ chapter.date }}</span>
             </li>

@@ -1,0 +1,82 @@
+.chapter-list {
+    background: #3A2E3F;
+    border-radius: 10px;
+    padding: 20px;
+  
+    .chapter-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #FFFFFF;
+  
+      @media (max-width: 576px) {
+        font-size: 1.2rem;
+      }
+    }
+  
+    .sort-btn {
+      background: none;
+      border: none;
+      color: #FFFFFF;
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+  
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  
+    .chapters-panel {
+      &.collapsed {
+        max-height: 20rem;
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+      }
+    }
+  
+    .chapter-card {
+      background: #FFFFFF1A;
+      border-radius: 10px;
+      padding: 10px;
+      transition: background 0.3s ease;
+  
+      &:hover {
+        background: #FFFFFF33;
+      }
+  
+      .thumbnail {
+        img {
+          width: 100px;
+          aspect-ratio: 2 / 1.5;
+          border: 1px solid #FFFFFF1A;
+          border-radius: 8px;
+        }
+      }
+  
+      .chapter-details {
+        .chapter-number {
+          font-size: 1rem;
+          color: #FFFFFF;
+          margin-bottom: 5px;
+        }
+  
+        .text-muted {
+          font-size: 0.75rem;
+          color: #D3D3D3;
+        }
+  
+        .coins {
+          font-size: 0.75rem;
+          color: #FFC107;
+        }
+      }
+    }
+  
+    .expand-btn {
+      .btn {
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+      }
+    }
+  }

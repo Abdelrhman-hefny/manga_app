@@ -9,6 +9,8 @@ import { HomeComponent } from './components/home/home.component';
 import { LibraryComponent } from './pages/library/library.component';
 import { LatestComponent } from './pages/latest/latest.component';
 import { SeriesComponent } from './pages/series/series.component';
+import { ManhwaDetailsComponent } from './pages/manhwa-details/manhwa-details.component';
+import { ChapterViewComponent } from './pages/chapter-view/chapter-view.component';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,7 +20,9 @@ export const appConfig: ApplicationConfig = {
       { path: 'Latest', component: LatestComponent }, // تعديل المسارات هنا
       { path: 'Series', component: SeriesComponent }, // مؤقتًا، ضع أي مكون موجود لديك
       { path: 'Library', component: LibraryComponent }, // مؤقتًا، ضع أي مكون موجود لديك
-      { path: '**', redirectTo: '', pathMatch: 'full' },
+      { path: 'manga-detailes', component: ManhwaDetailsComponent }, // مؤقتًا، ضع أي مكون موجود لديك
+      { path: 'series/chapter1', component: ChapterViewComponent }, // New route for chapter view
+      { path: '**', redirectTo: '/', pathMatch: 'full' },
     ]),
     provideClientHydration(),
   ],

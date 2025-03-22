@@ -1,7 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 /* You can add global styles to this file, and also import other style files */
 
-
-body{
-    background: #000;
+body {
+  background: #000;
+}
+.main-container {
+  background: #2a1e2d;
+  padding: 20px;
+}
+a {
+  text-decoration: none !important;
 }

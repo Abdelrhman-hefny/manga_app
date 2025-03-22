@@ -1,10 +1,11 @@
 import { NgFor, NgForOf, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-manhwa-card',
   standalone: true,
-  imports: [NgFor, NgForOf,NgIf],
+  imports: [NgFor, NgForOf,NgIf,RouterLink],
   templateUrl: './manhwa-card.component.html',
   styleUrls: ['./manhwa-card.component.scss'],
 })
