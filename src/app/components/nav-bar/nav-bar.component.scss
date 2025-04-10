@@ -44,3 +44,23 @@ nav {
     display: none;
   }
 }
+
+//btn loging
+#open_login_panel_button {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  img {
+    filter: brightness(0) invert(1);
+  }
+  span {
+    min-width: max-content;
+  }
+}
+
+//search

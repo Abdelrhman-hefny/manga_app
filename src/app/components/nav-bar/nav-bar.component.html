@@ -4,24 +4,30 @@
   <div class="container">
     <!-- Toggle button -->
     <a routerLink="/" class="logo ms-3 my-0 py-0" alt="Titan Scans">
-      <img src="../../../assets/imgs/logo.jpg" class="rounded-pill" />
+      <img src="/assets/imgs/logo_luna.png" class="rounded-pill" />
     </a>
     <!-- Collapsible wrapper -->
-    <!-- Right elements -->
-    <div class="container aligen-center items-center ms-4">
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <div class="search-container">
-            <input
-              type="text"
-              class="rounded-full search-input"
-              placeholder="Search..."
-            />
-            <i class="fa-search fas search-icon"></i>
-          </div>
-        </div>
-      </div>
+    <!-- search -->
+    <!-- داخل <div class="container"> في nav-bar.component.html -->
+    <div class="search-container mx-3">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearchInput()"
+      />
+      <span class="search-icon">
+        <img
+          src="https://api.iconify.design/mdi:magnify.svg?color=white"
+          alt="search"
+          width="24"
+          height="24"
+        />
+      </span>
     </div>
+    <app-search></app-search>
+
     <div class="d-flex align-items-center">
       <!-- Icon -->
 
@@ -53,7 +59,7 @@
           src="https://api.iconify.design/material-symbols:space-dashboard-rounded.svg?color=white"
           width="24"
         />
-        <div class="fs-4 md-nav-none sm:block">Series</div>
+        <div class="fs-6 fw-medium md-nav-none sm:block">Series</div>
       </a>
       <!-- Avatar -->
       <a
@@ -69,11 +75,33 @@
           src="https://api.iconify.design/fluent:library-28-filled.svg?color=white"
           width="24"
         />
-        <div class="fs-4 md-nav-none sm:block">Library</div>
+        <div class="fs-6 fw-medium md-nav-none sm:block">Library</div>
       </a>
+
+      <!-- looging -->
+      <!-- Right elements -->
+      <div class="d-flex align-items-center">
+        <a
+          id="open_login_panel_button"
+          class="d-flex align-items-center justify-content-center gap-2 px-3 py-2 rounded-pill text-decoration-none bg-white bg-opacity-10 text-white transition-all hover:bg-opacity-20 w-100 w-sm-auto"
+          title="Sign in"
+          data-bs-toggle="modal"
+          data-bs-target="#loginModal"
+        >
+          <img
+            src="https://api.iconify.design/majesticons:login-half-circle.svg?color=white"
+            alt="login-icon"
+            class="me-1"
+            width="24"
+            height="24"
+          />
+          <span class="d-none d-sm-inline fs-6 fw-medium">Sign in</span>
+        </a>
+      </div>
     </div>
     <!-- Right elements -->
   </div>
   <!-- Container wrapper -->
 </nav>
 <!-- Navbar -->
+<app-login></app-login>

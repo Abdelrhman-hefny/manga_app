@@ -10,6 +10,24 @@ import { ManhwaCardComponent } from '../manhwa-card/manhwa-card.component';
   styleUrl: './last-update.component.scss',
 })
 export class LastUpdateComponent {
+  trendingList = [
+    {
+      image: 'https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp',
+      title: 'I Thought...',
+      category: 'Action',
+    },
+    {
+      image: 'https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp',
+      title: 'Another Title',
+      category: 'Adventure',
+    },
+    {
+      image: 'https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp',
+      title: 'Yet Another',
+      category: 'Drama',
+    },
+  ];
+
   recentlyAdded = [
     {
       rank: 1,

@@ -1,52 +1,31 @@
-$title-color: white;
-$bg-color: #000;
-$card-hover: rgba(255, 255, 255, 0.1);
-
-.title {
-  h4 {
-    color: $title-color;
-  }
-}
-
-.card {
-  background-color: $bg-color;
-  transition: 0.3s ease-in-out;
+.trending-card {
+  flex: 1 1 30%;
+  max-width: 32%;
+  background-color: #1a1a1a;
+  border: none;
+  border-radius: 12px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 
   &:hover {
-    transform: scale(1.05);
-    background-color: $card-hover;
+    transform: scale(1.03);
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .card-img-top {
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
   }
 
   .card-body {
-    background-color: $bg-color;
-    border: none;
-  }
+    background: transparent;
 
-  img {
-    border-radius: 10px;
-  }
-}
-$bg-color: #000;
-$text-color: white;
-$card-bg: #1a1a1a;
-$shadow-color: rgba(0, 0, 0, 0.3);
-
-.container {
-  .card {
-    background: $card-bg;
-    transition: transform 0.3s ease;
-
-    &:hover {
-      transform: translateY(-5px);
+    .card-title {
+      font-size: clamp(0.9rem, 1.5vw, 1.2rem);
     }
 
-    .card-img-top {
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .card-body {
-      background: transparent;
+    span {
+      font-size: clamp(0.7rem, 1vw, 1rem);
     }
   }
 }
